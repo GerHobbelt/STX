@@ -56,8 +56,6 @@ if(${STX_ENABLE_BACKTRACE})
   find_package(absl CONFIG REQUIRED)
 endif()
 
-find_library(LIBATOMIC atomic)
-
 # ===============================================
 #
 # === Configuration Definitions and Platform Support
@@ -67,12 +65,18 @@ find_library(LIBATOMIC atomic)
 # some microcontroller platforms 'arm-gcc-none especially" may not have
 # std::thread enabled if so, we remove the thread facilities, this will cause
 # compilation errors otherwise, since the classes won't be available
-check_cxx_source_compiles(
-  "#include <thread>
 
-int main(){
-  std::this_thread::get_id();
-}
+if(UNIX)
+  add_link_options("-latomic")
+endif()
+
+check_cxx_source_compiles(
+  "
+  #include <thread>
+
+  int main(){
+    std::this_thread::get_id();
+  }
 "
   LIBSTX_HAS_STD_THREAD)
 
@@ -84,10 +88,6 @@ file(GLOB STX_SOURCE_FILES_LIST src/*.cc)
 
 add_library(stx STATIC ${STX_SOURCE_FILES_LIST})
 target_link_libraries(stx Threads::Threads)
-
-if(${LIBATOMIC_FOUND})
-  target_link_libraries(stx ${LIBATOMIC_LIB})
-endif()
 
 add_library(stx::stx ALIAS stx)
 
