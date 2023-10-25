@@ -180,7 +180,7 @@ public:
   constexpr Span(std::array<U, Length> &&array) = delete;
 
   template <typename Container, STX_ENABLE_IF(impl::is_container<Container &> &&impl::is_compatible_container<Container &, T>)>
-  constexpr Span(Container &container) noexcept :
+  constexpr Span(Container &container) :
       iterator_{static_cast<Iterator>(std::data(container))}, size_{std::size(container)}
   {}
 
@@ -527,6 +527,19 @@ public:
   // minmax_element
   // equal
   // reverse
+
+  stx::Span<T> reverse()
+  {
+    static_assert(std::is_swappable_v<T>);
+
+    for (T *fwd = iterator_, *bwd = iterator_ + size_; fwd < iterator_ + (size_ / 2); fwd++)
+    {
+      bwd--;
+      std::swap(*fwd, *bwd);
+    }
+
+    return *this;
+  }
 
   /// converts the span into a view of its underlying bytes (represented with `uint8_t`).
   constexpr Span<ConstVolatileMatched<uint8_t>> as_u8() const
