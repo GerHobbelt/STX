@@ -72,7 +72,7 @@ check_cxx_source_compiles(
   "
   #include <thread>
 
-  int main(){
+  int main(void){
     std::this_thread::get_id();
   }
 "

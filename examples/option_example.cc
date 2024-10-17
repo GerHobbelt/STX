@@ -17,7 +17,7 @@ auto unlock_bag(int password) -> Option<std::string_view>
   }
 }
 
-int main()
+int main(void)
 {
   std::cout << unlock_bag(123456).unwrap() << "\n";
 

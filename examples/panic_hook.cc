@@ -11,7 +11,7 @@ void hook(std::string_view info, std::string_view error_report,
   std::cout << error_report << '\n';
 }
 
-int main()
+int main(void)
 {
   if (!stx::attach_panic_hook(&hook))
   {

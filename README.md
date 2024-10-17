@@ -68,7 +68,7 @@ auto safe_divide(double numerator, double denominator) -> Option<double> {
   return Some(numerator / denominator);
 }
 
-int main() {
+int main(void) {
   safe_divide(5.0, 2.0).match(
       [](auto value) { std::cout << "Result: " << value << std::endl; },
       []() { std::cout << "Cannot divide by zero" << std::endl; });
@@ -104,7 +104,7 @@ auto parse_version(array<uint8_t, 6> const& header) -> Result<Version, string_vi
   }
 }
 
-int main() {
+int main(void) {
   parse_version({2, 3, 4, 5, 6, 7}).match([](auto version){
     std::cout << "Version: " << static_cast<int>(version) << std::endl;
   }, [](auto error){
@@ -129,7 +129,7 @@ auto parse_data(array<uint8_t, 6> const& header) -> Result<uint8_t, string_view>
   return Ok(version + header[1] + header[2]);
 }
 
-int main() {
+int main(void) {
   auto parsed = parse_data({2, 3, 4, 5, 6, 7}).unwrap();
 
   std::cout << parsed << std::endl;

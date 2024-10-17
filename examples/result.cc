@@ -34,7 +34,7 @@ auto open(std::string_view path) -> Result<File>
 
 }        // namespace fs
 
-int main()
+int main(void)
 {
   fs::Result<fs::File> file = fs::open("...");
 

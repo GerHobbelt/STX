@@ -17,7 +17,7 @@ Filename: src/main.cc
 ```cpp
 #include "stx/panic.h"
 
- int main() {
+ int main(void) {
     stx::panic("crash and burn!");
  }
 ```
@@ -59,7 +59,7 @@ Here is an example of using a panic with a malloc.
     return memory;
  }
 
- int main() {
+ int main(void) {
      // panics if a memory allocation or heap exhaustion error occurs
      auto buffer = make_memory(1024);
      free(buffer);
